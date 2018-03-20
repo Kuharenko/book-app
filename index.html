@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>book</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <script src="./src/assets/js/typed.js"></script>
+    <script src="./src/assets/js/codemirror.js"></script>
+    <script src="./src/assets/js/clike.js"></script>
+    <link rel="stylesheet" href="./src/assets/css/codemirror.css">
+    <link rel="stylesheet" href="./src/assets/fa/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="./src/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+  <body>
+      <div class="page-wrap">
+          <div class="main-menu">
+              <a class="main-menu__item" href="/">
+                  <i class="far fa-user"></i>
+              </a>
+              <a class="main-menu__item" href="/categories">
+                  <i class="fas fa-certificate"></i>
+              </a>
+              <a class="main-menu__item" href="/vocabulary">
+                  <i class="fas fa-edit"></i>
+              </a>
+              <a class="main-menu__item" href="/progress">
+                  <i class="fas fa-clipboard"></i>
+              </a>
+      
+          </div>
+          
+    <div id="app"></div>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+          <script>
+          $(document).ready(function () {
+    $('.overlay').on('click',function () {
+        $(this).removeClass('active');
+    });
+});
+</script>
+    <script src="/dist/build.js"></script>
+  </div>
+  <script id="postScripts"></script>
+  <div class="overlay">
+      <div id="modal">
+          <div class="title"></div>
+          <div class="response"></div>
+      </div>
+  </div>
+  </body>
+</html>
