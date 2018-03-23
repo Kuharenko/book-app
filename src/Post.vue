@@ -29,7 +29,7 @@
                 "Content-Type": "application/json"
             });
             var that = this;
-            fetch('http://api.book.my/post/' + this.$route.params.id, {
+            fetch('http://backend.kuharenko.xyz/post/' + this.$route.params.id, {
                     'mode': 'cors',
                     'headers': myHeaders
                 })

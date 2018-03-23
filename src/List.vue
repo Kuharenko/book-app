@@ -28,7 +28,7 @@ export default {
                 "Content-Type": "application/json"
             });
             var that = this;
-            fetch('http://api.book.my/posts', {'mode': 'cors', 'headers': myHeaders})
+            fetch('http://backend.kuharenko.xyz/posts', {'mode': 'cors', 'headers': myHeaders})
                 .then(function (response) {
                     return response.json();
                 })
