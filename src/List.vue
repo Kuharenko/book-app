@@ -29,12 +29,13 @@ export default {
                 "Content-Type": "application/json"
             });
             var that = this;
-            fetch('http://backend.kuharenko.xyz/post')
+            fetch('http://backend.kuharenko.xyz/post?expand=categories')
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (json) {
                     that.posts = json;
+                    console.log(that.posts);
                     return that.posts;
                 })
                 .then(function (json) {

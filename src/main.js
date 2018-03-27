@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import Post from './Post.vue'
 import List from './List.vue'
+import Categories from './Categories.vue'
+import Vocabulary from './Vocabulary.vue'
+import Progress from './Progress.vue'
 // import Loading from './Loading.vue'
 import VueRouter from 'vue-router'
 
@@ -9,6 +12,9 @@ Vue.use(VueRouter)
 
 Vue.component('list', List);
 Vue.component('post', Post);
+Vue.component('categories', Categories);
+Vue.component('vocabulary', Vocabulary);
+Vue.component('progress', Progress);
 
 // Vue.component('loading', Loading)
 
@@ -28,6 +34,9 @@ Vue.component('post', Post);
 const routes = [
   { path: '/', component: List},
   { path: '/post/:id', component: Post},
+  { path: '/categories/', component: Categories},
+  { path: '/vocabulary/', component: Vocabulary},
+  { path: '/progress/', component: Progress},
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`
@@ -44,7 +53,7 @@ const router = new VueRouter({
 const app = new Vue({
   el: '#app',
   router,
-  render: h => h(App, List, Post)
+  render: h => h(App, List, Post, Categories, Vocabulary, Progress)
 })
 
 // router.beforeEach((to, from, next) => {

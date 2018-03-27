@@ -42,7 +42,7 @@
             },
             getMaterial(id) {
                 var that = this;
-                fetch('http://backend.kuharenko.xyz/posts/' + id)
+                fetch('http://backend.kuharenko.xyz/posts/' + id + '?expand=categories')
                     .then(function(response) {
                         return response.json();
                     })
