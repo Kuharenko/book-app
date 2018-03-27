@@ -2,12 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import Post from './Post.vue'
 import List from './List.vue'
+// import Loading from './Loading.vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
 Vue.component('list', List);
 Vue.component('post', Post);
+
+// Vue.component('loading', Loading)
+
 // 0. При использовании модульной системы (напр. vue-cli),
 // импортируйте Vue и VueRouter и затем вызовите `Vue.use(VueRouter)`
 
@@ -23,7 +27,7 @@ Vue.component('post', Post);
 // Вложенные пути будут рассмотрены далее.
 const routes = [
   { path: '/', component: List},
-  { path: '/post/:id', component: Post}
+  { path: '/post/:id', component: Post},
 ]
 
 // 3. Создаём экземпляр роутера с опцией `routes`
@@ -32,11 +36,22 @@ const router = new VueRouter({
   routes // сокращение от `routes: routes`
 })
 
+
+
 // 4. Создаём и монтируем корневой экземпляр Vue нашего приложения.
 // Удостоверьтесь, что передали экземпляр роутера в опции `router`,
 // что позволит приложению знать о его наличии
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
   render: h => h(App, List, Post)
 })
+
+// router.beforeEach((to, from, next) => {
+//   app.loading = true
+// 	next()
+// })
+
+// router.afterEach((to, from) => {
+//   // setTimeout(() => app.loading = false, 1500) // timeout for demo purposes
+// })

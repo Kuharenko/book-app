@@ -8,7 +8,7 @@
                 <div class="tags">
                     <span v-for="category in post.categories">
                                     <b>{{category.name}} </b>
-                                 </span>
+                                </span>
                 </div>
             </div>
         </div>
@@ -21,42 +21,55 @@
         data: function() {
             return {
                 post: [],
+                error: null
             }
         },
+        beforeRouteEnter(to, from, next) {
+            // вызывается до подтверждения пути, соответствующего этому компоненту.
+            // НЕ имеет доступа к контексту экземпляра компонента `this`,
+            // так как к моменту вызова экземпляр ещё не создан!
+            console.log("loading material");
     
-        mounted() {
-            var myHeaders = new Headers({
-                "Content-Type": "application/json"
-            });
-            var that = this;
-            fetch('http://backend.kuharenko.xyz/post/' + this.$route.params.id, {
-                    'mode': 'cors',
-                    'headers': myHeaders
-                })
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(json) {
-                    that.post = json;
-                    return that.post;
-                }).then(function(result) {
-                    /**
-                     * При загрузке материала, подгружаем и запускаем его js-скрипты  
-                     */
-                    
-                    const b = document.querySelector('#postScripts');
-                    b.insertAdjacentHTML('afterbegin', result.post_scripts)
-                    let funcionName = (result.post_scripts)
-                        .split(' ',2)[1]
-                        .split('(',1)[0];
-                    window[funcionName]();
-
-                })
-                .catch(function(error) {
-                    console.log('Request failed', error);
-                });
+            next(vm => vm.fetchData())
         },
-        
+        methods: {
+            fetchData() {
+                this.error = null
+                this.post = []
+    
+                this.getMaterial(this.$route.params.id);
+    
+            },
+            getMaterial(id) {
+                var that = this;
+                fetch('http://backend.kuharenko.xyz/posts/' + id)
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(json) {
+                        that.post = json;
+    
+                        return that.post;
+                    }).then(function(result) {
+                        /**
+                         * При загрузке материала, подгружаем и запускаем его js-скрипты  
+                         */
+    
+                        const b = document.querySelector('#postScripts');
+                        b.insertAdjacentHTML('afterbegin', result.post_scripts)
+                        let funcionName = (result.post_scripts)
+                            .split(' ', 2)[1]
+                            .split('(', 1)[0];
+                        window[funcionName]();
+                    })
+                    .catch(function(error) {
+                        console.log('OOps Request failed', error);
+                        return error;
+                    });
+            }
+    
+    
+        },
     }
 </script>
 

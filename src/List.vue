@@ -23,12 +23,13 @@ export default {
                 posts : [],
             }
         },
+        
         mounted() {
             var myHeaders = new Headers({
                 "Content-Type": "application/json"
             });
             var that = this;
-            fetch('http://backend.kuharenko.xyz/posts', {'mode': 'cors', 'headers': myHeaders})
+            fetch('http://backend.kuharenko.xyz/post')
                 .then(function (response) {
                     return response.json();
                 })
