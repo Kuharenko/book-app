@@ -25,17 +25,18 @@ export default {
         },
         
         mounted() {
+            var token = 'eesu4A03x_e6654pebZWerkDGXRJJq-X';
             var myHeaders = new Headers({
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + token
             });
             var that = this;
-            fetch('http://backend.kuharenko.xyz/post?expand=categories')
+            fetch('http://backend.kuharenko.xyz/post?expand=categories', {method: 'get', cors: 'cors', headers: myHeaders})
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (json) {
                     that.posts = json;
-                    console.log(that.posts);
                     return that.posts;
                 })
                 .then(function (json) {
