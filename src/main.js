@@ -106,7 +106,7 @@ function loadData(){
     });
     
 
-       let url = 'http://backend.kuharenko.xyz/post?expand=categories';
+       let url = 'http://backend.kuharenko.xyz/post?expand=categories,tests';
        let zz = 10;
     
     fetch(url, {

@@ -40,6 +40,7 @@
             }
         },
         mounted() {
+
             const PostScriptsContainer = document.getElementById('postScripts');
             PostScriptsContainer.innerHTML = "";
             document.body.removeChild(PostScriptsContainer);
@@ -62,7 +63,7 @@
             // НЕ имеет доступа к контексту экземпляра компонента `this`,
             // так как к моменту вызова экземпляр ещё не создан!
     
-            next(vm => vm.fetchData())
+            next()
         },
     
         beforeRouteUpdate(to, from, next) {
