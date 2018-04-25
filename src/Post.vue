@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <router-link to="/">Назад</router-link>
+        <button @click="$router.go(-1)">Назад</button>
         <div class="post">
             <h2>{{ post.name }}</h2>
             <div class="announce" v-html="post.content"></div>
@@ -9,10 +9,10 @@
                 <h2>Перевірте себе</h2>
                 <form name="tests" :id="'id_'+post.tests.id">
                     <input type="hidden" name="task_id" :value="post.tests.id">
-                    <div v-for="(item, index) in post.tests.test_questions">
+                    <div v-for="(item, index) in post.tests.test_questions" :key="item.id">
                         <p><b>{{index+1}}. </b> {{item.question}}</p>
                         <div class="boxes">
-                            <div class="answer" v-for="(answer, answer_index) in item.answers">
+                            <div class="answer" v-for="answer in item.answers" :key="answer.id">
                                 <input type="checkbox" :id="'box-'+answer.id" :name="'box_'+answer.id">
                                 <label :for="'box-'+answer.id">{{answer.variant}}</label>
                             </div>
@@ -25,11 +25,7 @@
             </div>
     
             <div class="more">
-                <div class="tags">
-                    <span v-for="category in post.categories">
-                                                                                                                    <b>{{category.name}} </b>
-                                                                                                                </span>
-                </div>
+    
             </div>
         </div>
     </div>
@@ -39,18 +35,45 @@
     export default {
         data: function() {
             return {
-                post: [],
-                error: null
+                post: this.$parent.$root.posts.filter(post => post.id == this.$route.params.id)[0],
+                error: null,
+            }
+        },
+        mounted() {
+            const PostScriptsContainer = document.getElementById('postScripts');
+            PostScriptsContainer.innerHTML = "";
+            document.body.removeChild(PostScriptsContainer);
+            let newScriptContainer = document.createElement('script');
+            newScriptContainer.setAttribute("id", "postScripts");
+            document.body.appendChild(newScriptContainer);
+    
+            if (this.post.post_scripts !== undefined) {
+                const b = document.getElementById('postScripts');
+                b.insertAdjacentHTML('afterbegin', this.post.post_scripts)
+                let funcionName = (this.post.post_scripts)
+                    .split(' ', 2)[1]
+                    .split('(', 1)[0];
+    
+                window[funcionName]();
             }
         },
         beforeRouteEnter(to, from, next) {
             // вызывается до подтверждения пути, соответствующего этому компоненту.
             // НЕ имеет доступа к контексту экземпляра компонента `this`,
             // так как к моменту вызова экземпляр ещё не создан!
-            console.log("loading material");
     
             next(vm => vm.fetchData())
         },
+    
+        beforeRouteUpdate(to, from, next) {
+            // react to route changes...
+            // don't forget to call next()
+    
+            next()
+        },
+    
+    
+    
         methods: {
             send_for_checking() {
     
@@ -59,6 +82,7 @@
                 $(".tasks input:checkbox:checked").each(function() {
                     checked.push(parseInt($(this).attr('id').split('box-')[1]));
                 });
+    
     
                 var questions = this.post.tests.test_questions;
                 var answers = [];
@@ -91,52 +115,36 @@
                 } else {
                     if (checked.length > rightCount) {
                         result = ((goodChoice / checked.length) * 100).toFixed(0);
-                    }else{
+                    } else {
                         result = ((goodChoice / rightCount) * 100).toFixed(0);
                     }
                 }
     
+                var res = {
+                    result: result,
+                    token: this.$session.get('user-token'),
+                    test: this.post.tests.id,
+                    material: this.post.id
+                };
+    
+                fetch('http://backend.kuharenko.xyz/site/set-test-result', {
+                        method: 'POST',
+                        body: JSON.stringify(res)
+                    })
+                    .then(function(res) {
+                        return res.json();
+                    });
+                $(".tasks input:checkbox:checked").each(function() {
+                    $(this).prop("checked", false);
+                });
                 $('.overlay').addClass('active');
                 $('.overlay #modal .title').text('Результат вашого тестування!');
+    
+    
+    
                 $('.overlay #modal .response').text(result + '%');
     
             },
-    
-            fetchData() {
-                this.error = null
-                this.post = []
-    
-                this.getMaterial(this.$route.params.id);
-    
-            },
-            getMaterial(id) {
-                var that = this;
-                fetch('http://backend.kuharenko.xyz/posts/' + id + '?expand=categories,tests')
-                    .then(function(response) {
-                        return response.json();
-                    })
-                    .then(function(json) {
-                        that.post = json;
-                        // console.log(that.post);
-                        return that.post;
-                    }).then(function(result) {
-                        /**
-                         * При загрузке материала, подгружаем и запускаем его js-скрипты  
-                         */
-    
-                        const b = document.querySelector('#postScripts');
-                        b.insertAdjacentHTML('afterbegin', result.post_scripts)
-                        let funcionName = (result.post_scripts)
-                            .split(' ', 2)[1]
-                            .split('(', 1)[0];
-                        window[funcionName]();
-                    })
-                    .catch(function(error) {
-                        console.log('OOps Request failed', error);
-                        return error;
-                    });
-            }
-    
     
         },
     }
@@ -147,5 +155,15 @@
         h2 {
             color: black;
         }
+    }
+    
+    .slide-enter {
+        opacity: 0;
+        transform: translate(30px, 0);
+    }
+    
+    .slide-leave-active {
+        opacity: 0;
+        transform: translate(-30px, 0);
     }
 </style>

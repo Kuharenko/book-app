@@ -7,7 +7,8 @@ body {
   flex-direction: row; }
 
 .main-menu {
-  position: sticky;
+  position: fixed;
+  left: 0;
   top: 0;
   background-color: #353535;
   width: 100%;

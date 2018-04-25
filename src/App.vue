@@ -1,10 +1,13 @@
 <template>
     <div class="container">
         <div id="app">
+            
             <!-- <loading v-if="$root.loading"></loading> -->
+            <side-menu></side-menu>
             <transition name="flip" mode="out-in">
-                <router-view></router-view>
+                <router-view :key="$route.fullPath"></router-view>
             </transition>
+            
         </div>
     </div>
 </template>

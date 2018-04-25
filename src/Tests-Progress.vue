@@ -14,11 +14,37 @@
         <hr>
         <form v-if="access_token === null">
             <input type="email" v-model="register_email" placeholder="email">
-             <div class="error" v-if="register_errors">{{register_errors.email}}</div>
+            <div class="error" v-if="register_errors">{{register_errors.email}}</div>
             <input type="password" v-model="register_password" placeholder="New password">
-             <div class="error" v-if="register_errors">{{register_errors.password}}</div>
+            <div class="error" v-if="register_errors">{{register_errors.password}}</div>
             <button @click.prevent="login('register')">Регистрация</button>
         </form>
+        <div class="tests-list" v-if="access_token">
+            <table>
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>Название</td>
+                        <td>Успешность</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(material, index) in materials">
+                        <td>{{++index}}</td>
+                        <td>
+                            <router-link :to="{ path: '/post/'+material.id}">{{material.name}}</router-link>
+                        </td>
+                        <td v-if="material.progress">
+                            {{material.progress.progress_value}}%
+                        </td>
+                        <td v-else>
+                            0%
+                        </td>
+    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -26,9 +52,9 @@
     export default {
         data: function() {
             return {
-                login_email: localStorage['username'] ? localStorage['username'] : "",
+                login_email: this.$session.get('username') ? this.$session.get('username') : "",
                 login_password: "",
-                access_token: localStorage['user-token'] ? localStorage['user-token'] : null,
+                access_token: this.$session.get('user-token') ? this.$session.get('user-token') : null,
                 register_email: "",
                 register_password: "",
                 login_errors: {
@@ -39,9 +65,41 @@
                     email: null,
                     password: null
                 },
+                materials: []
+            }
+        },
+        created: function() {
+            if (this.access_token) {
+                this.loadMaterials();
             }
         },
         methods: {
+            loadMaterials() {
+                if (this.access_token) {
+                    var myHeaders = new Headers({
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer ' + this.access_token
+                    });
+                    var that = this;
+                    fetch('http://backend.kuharenko.xyz/post?fields=id,name&expand=progress&access-token=' + this.access_token, {
+                            method: 'get',
+                            cors: 'cors',
+                            headers: myHeaders
+                        })
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(data) {
+                            that.materials = data.items;
+                            // console.log(data);
+                            return that.materials;
+                        })
+                        .catch(function(error) {
+                            console.log('Request failure: ', error);
+                        });
+                }
+    
+            },
     
             login(action) {
                 var myHeaders = new Headers();
@@ -51,17 +109,17 @@
                     register_email: this.register_email,
                     register_password: this.register_password
                 };
-
+    
     
                 myHeaders.append('Content-Type', 'text/plain');
                 var that = this;
     
                 var url = "";
                 if (action == 'login') {
-                    url = 'http://api.book.my/user-login/login'
+                    url = 'http://backend.kuharenko.xyz/user-login/login'
                 }
                 if (action == 'register') {
-                    url = 'http://api.book.my/user-login/register'
+                    url = 'http://backend.kuharenko.xyz/user-login/register'
                 }
     
                 fetch(url, {
@@ -77,47 +135,56 @@
                         if (json.status == 200) {
                             that.access_token = json.access_token;
                             that.login_email = json.username;
-                            localStorage.setItem('user-token', that.access_token)
-                            localStorage.setItem('username', that.login_email)
+    
+                            that.$session.start()
+                            that.$session.set('user-token', that.access_token)
+                            that.$session.set('username', that.login_email)
                         } else {
                             if (action == 'login') {
                                 if (json.errors.email) {
                                     that.login_errors.email = json.errors.email[0];
-                                }else{
+                                } else {
                                     that.login_errors.email = null;
                                 }
                                 if (json.errors.password) {
                                     that.login_errors.password = json.errors.password[0];
-                                }else{
+                                } else {
                                     that.login_errors.password = null;
                                 }
     
                             } else {
                                 if (json.errors.email) {
                                     that.register_errors.email = json.errors.email[0];
-                                }else{
+                                } else {
                                     that.register_errors.email = null;
                                 }
                                 if (json.errors.newPassword) {
                                     that.register_errors.password = json.errors.newPassword[0];
-                                }else{
-                                     that.register_errors.password = null;
+                                } else {
+                                    that.register_errors.password = null;
                                 }
                             }
                         }
+                        that.loadMaterials();
                     })
                     .catch(function(error) {
-                        localStorage.removeItem('user-token')
-                        localStorage.removeItem('username')
+                        that.$session.clear()
+                        that.$session.destroy()
                         console.log('Request failure: ', error);
                     });
             },
             logout() {
-                this.login_errors = {email: null, password: null};
-                this.register_errors = {email: null, password: null};
-
-                localStorage.removeItem('user-token')
-                localStorage.removeItem('username')
+                this.login_errors = {
+                    email: null,
+                    password: null
+                };
+                this.register_errors = {
+                    email: null,
+                    password: null
+                };
+    
+                this.$session.clear()
+                this.$session.destroy()
                 this.login_email = "";
                 this.access_token = null;
             },

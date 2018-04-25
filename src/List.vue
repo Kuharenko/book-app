@@ -1,66 +1,61 @@
 <template>
-        <div class="content">
-                <div class="post" v-for="post in posts">
-                    <h2>{{ post.name }}</h2>
-                    <div class="announce">{{ post.announce }}</div>
-                    <div class="more">
-                        <div class="tags">
-                            <span v-for="category in post.categories">
-                                <b>{{category.name}} </b>
-                            </span>
-                        </div>
-                        <router-link :to="{ path: '/post/'+post.id}">детальніше...</router-link>
-                    </div>
+    <div class="content">
+    
+        <div class="post" v-for="post in posts" :key="post.id">
+            <h2>{{ post.name }}</h2>
+            <div class="announce">{{ post.announce }}</div>
+            <div class="more">
+                <div class="tags">
+                    <span v-for="category in post.categories" :key="category.id">
+                        <b>{{category.name}} </b>
+                    </span>
                 </div>
+                <router-link :to="{ path: '/post/'+post.id}">детальніше...</router-link>
             </div>
+        </div>
+        <!-- <button v-if="pager.first" @click="firstBtn">first</button>
+                                                                    <button v-if="pager.prev" @click="prevBtn">prev</button>
+                                                                    <button v-if="pager.next" @click="nextBtn">next</button>
+                                                                    <button v-if="pager.last" @click="lastBtn">last</button> -->
+    </div>
 </template>
 
 <script>
-
-export default {
-  data: function(){
+    export default {
+        data: function() {
             return {
-                posts : [],
+                posts: this.$parent.$root.posts,
+                pager: []
             }
         },
-        
-        mounted() {
-            var token = 'eesu4A03x_e6654pebZWerkDGXRJJq-X';
-            var myHeaders = new Headers({
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + token
-            });
-            var that = this;
-            fetch('http://backend.kuharenko.xyz/post?expand=categories', {method: 'get', cors: 'cors', headers: myHeaders})
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (json) {
-                    that.posts = json;
-                    return that.posts;
-                })
-                .then(function (json) {
-                    
-                     const PostScriptsContainer = document.getElementById('postScripts');
-                     PostScriptsContainer.innerHTML = "";
-
-                     document.body.removeChild(PostScriptsContainer);
-                     let newScriptContainer = document.createElement('script');
-                     newScriptContainer.setAttribute("id", "postScripts");
-                     document.body.appendChild(newScriptContainer);
-
-                })
-                .catch(function (error) {
-                    console.log('Request failed', error);
-                });
-        }
-}
+        methods: {
+            nextBtn() {
+                this.loadMaterials(this.pager.next.href);
+            },
+            prevBtn() {
+                this.loadMaterials(this.pager.prev.href);
+            },
+            lastBtn() {
+                this.loadMaterials(this.pager.last.href);
+            },
+            firstBtn() {
+                this.loadMaterials(this.pager.first.href);
+            },
+        },
+    }
 </script>
 
 <style lang="scss" scoped>
-.post{
-    h2{
-        color: black;
+    .post {
+        h2 {
+            color: black;
+        }
     }
-}
+    
+    .list {
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    }
 </style>
