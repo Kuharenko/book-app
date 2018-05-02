@@ -107,7 +107,7 @@ function loadData(){
     
 
        let url = 'http://backend.kuharenko.xyz/post?expand=categories,tests';
-       let zz = 10;
+    //    let url = 'http://api.book.my/post?expand=categories,tests';
     
     fetch(url, {
             method: 'get',

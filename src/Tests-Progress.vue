@@ -1,31 +1,58 @@
 <template>
-    <div>
+    <div class="content">
         <div v-if="access_token">
-            Hello, {{login_email}}
-            <button @click.prevent="logout()">logout</button>
+            <button @click.prevent="logout()" class="button button1">Вийти</button>
         </div>
-        <form v-if="access_token === null">
-            <input v-model="login_email" placeholder="login">
-            <div class="error" v-if="login_errors">{{login_errors.email}}</div>
-            <input type="password" v-model="login_password" placeholder="password">
-            <div class="error" v-if="login_errors">{{login_errors.password}}</div>
-            <button @click.prevent="login('login')">Войти</button>
-        </form>
-        <hr>
-        <form v-if="access_token === null">
-            <input type="email" v-model="register_email" placeholder="email">
-            <div class="error" v-if="register_errors">{{register_errors.email}}</div>
-            <input type="password" v-model="register_password" placeholder="New password">
-            <div class="error" v-if="register_errors">{{register_errors.password}}</div>
-            <button @click.prevent="login('register')">Регистрация</button>
-        </form>
+    
+        <div class="tabs-form" v-if="access_token === null">
+            <div class="buttons">
+                <button @click="showLoginForm = true; showRegisterForm = false;" :class="{'active': showLoginForm}">Увійти</button>
+                <button @click="showLoginForm = false; showRegisterForm = true;" :class="{'active': showRegisterForm}">Реєстрація</button>
+            </div>
+            <div class="form-wrap">
+    
+                <form v-if="showLoginForm && access_token === null">
+                    <!-- <h4>Введите свой логин и пароль</h4> -->
+                    <div class="field-wrap">
+                        <label for="log-email">email</label>
+                        <input v-model="login_email" id="log-email">
+                    </div>
+                    <div class="error" v-if="login_errors">{{login_errors.email}}</div>
+    
+                    <div class="field-wrap">
+                        <label for="log-password">Пароль</label>
+                        <input type="password" id="log-password" v-model="login_password">
+                    </div>
+    
+                    <div class="error" v-if="login_errors">{{login_errors.password}}</div>
+                    <button @click.prevent="login('login')">Увійти</button>
+                </form>
+                <form v-if="!showLoginForm && access_token === null">
+                    <!-- <h4>Введите свой логин и пароль</h4> -->
+                    <div class="field-wrap">
+                        <label for="reg-email">email</label>
+                        <input type="email" id="reg-email" v-model="register_email" autocomplete="off">
+                    </div>
+                    <div class="error" v-if="register_errors">{{register_errors.email}}</div>
+    
+                    <div class="field-wrap">
+                        <label for="reg-password">Пароль</label>
+                        <input type="password" id="reg-password" v-model="register_password" autocomplete="off">
+                    </div>
+    
+                    <div class="error" v-if="register_errors">{{register_errors.password}}</div>
+                    <button @click.prevent="login('register')">Зареєструватися</button>
+                </form>
+            </div>
+        </div>
+    
         <div class="tests-list" v-if="access_token">
             <table>
                 <thead>
                     <tr>
                         <td>#</td>
-                        <td>Название</td>
-                        <td>Успешность</td>
+                        <td>Назва теми</td>
+                        <td>Успішність</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +79,8 @@
     export default {
         data: function() {
             return {
+                showLoginForm: true,
+                showRegisterForm: false,
                 login_email: this.$session.get('username') ? this.$session.get('username') : "",
                 login_password: "",
                 access_token: this.$session.get('user-token') ? this.$session.get('user-token') : null,
@@ -81,7 +110,7 @@
                         'Authorization': 'Bearer ' + this.access_token
                     });
                     var that = this;
-                    fetch('http://backend.kuharenko.xyz/post?fields=id,name&expand=progress&access-token=' + this.access_token, {
+                    fetch('http://backend.kuhareko.xyz/post?fields=id,name&expand=progress&access-token=' + this.access_token, {
                             method: 'get',
                             cors: 'cors',
                             headers: myHeaders
@@ -198,6 +227,113 @@
     .post {
         h2 {
             color: black;
+        }
+    }
+    
+    .tabs-form {
+        display: flex;
+        flex-direction: column;
+        background-color: #13232f;
+        width: 800px;
+        margin: 0 auto;
+        // padding: 50px;
+        padding: 20px 0;
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding: 20px 30px 0 30px;
+            button {
+                padding: 20px;
+                width: 45%;
+                color: #a0b3b0;
+                background-color: rgba(160, 179, 176, 0.25);
+                border: none;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 16px;
+                &:hover {
+                    background-color: #179b77;
+                    color: white;
+                }
+            }
+            button.active {
+                background-color: #1ab188;
+                color: white;
+                &:hover {
+                    background-color: #179b77;
+                    color: white;
+                }
+            }
+        }
+        .form-wrap {
+            padding: 20px 30px;
+            .field-wrap {
+                margin-bottom: 10px;
+                label {
+                    color: white;
+                    text-transform: capitalize;
+                }
+                input {
+                    box-sizing: border-box;
+                    font-size: 22px;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 8px 10px;
+                    background: none !important;
+                    background-color:#13232f !important;
+                    background-image: none !important;
+                    border: 1px solid #a0b3b0;
+                    color: #ffffff;
+                    border-radius: 0;
+                    transition: border-color .25s ease, box-shadow .25s ease;
+                }
+            }
+            button {
+                margin-top: 20px;
+                padding: 20px;
+                width: 100%;
+               background-color: #1ab188;
+                color: white;
+                border: none;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 16px;
+                &:hover {
+                    background-color: #179b77;
+                    color: white;
+                }
+            }
+        }
+        .error{
+            color: #f44336;
+        }
+    }
+
+    .tests-list{
+        table{
+            width: 100%;
+            thead{
+                background-color: #d4d4d4;
+                tr td{
+                    padding-left: 15px;
+                }
+            }
+            tbody{
+                tr:nth-child(2n){
+                    background-color: #cacaca;
+                }
+                tr:nth-child(2n -1){
+                    background-color: #e8e8e8;
+                }
+                tr:hover{
+                    background-color: #dfd7e8;
+                }
+                td{
+                     padding-left: 15px;
+                }
+            }
         }
     }
 </style>

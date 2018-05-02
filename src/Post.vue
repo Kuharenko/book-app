@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <button @click="$router.go(-1)">Назад</button>
+        <button class="button button1" @click="$router.go(-1)">❮ Назад</button>
         <div class="post">
             <h2>{{ post.name }}</h2>
             <div class="announce" v-html="post.content"></div>
@@ -23,7 +23,10 @@
     
                 </form>
             </div>
-    
+            <div class="announce" v-if="post.sources">
+                <h2>Список джерел</h2>
+                <div v-html="post.sources"></div>
+            </div>
             <div class="more">
     
             </div>
@@ -40,7 +43,7 @@
             }
         },
         mounted() {
-
+    
             const PostScriptsContainer = document.getElementById('postScripts');
             PostScriptsContainer.innerHTML = "";
             document.body.removeChild(PostScriptsContainer);
@@ -138,12 +141,14 @@
                 $(".tasks input:checkbox:checked").each(function() {
                     $(this).prop("checked", false);
                 });
-                $('.overlay').addClass('active');
-                $('.overlay #modal .title').text('Результат вашого тестування!');
+                // $('.overlay').addClass('active');
+                // $('.overlay #modal .title').text('Результат вашого тестування!');
+
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+                $('#myModal .modal-body').text(result + '%');
     
-    
-    
-                $('.overlay #modal .response').text(result + '%');
+                // $('.overlay #modal .response').text(result + '%');
     
             },
     
