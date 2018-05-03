@@ -110,7 +110,7 @@
                         'Authorization': 'Bearer ' + this.access_token
                     });
                     var that = this;
-                    fetch('http://backend.kuhareko.xyz/post?fields=id,name&expand=progress&access-token=' + this.access_token, {
+                    fetch('http://backend.kuharenko.xyz/post?fields=id,name&expand=progress&access-token=' + this.access_token, {
                             method: 'get',
                             cors: 'cors',
                             headers: myHeaders
@@ -132,9 +132,12 @@
     
             login(action) {
                 var myHeaders = new Headers();
-                var fields = {
+                var fieldsLog = {
                     email: this.login_email,
                     password: this.login_password,
+                };
+
+                var fieldsReg = {
                     register_email: this.register_email,
                     register_password: this.register_password
                 };
@@ -156,7 +159,7 @@
                         headers: myHeaders,
                         mode: 'cors',
                         cache: 'default',
-                        body: JSON.stringify(fields)
+                        body: JSON.stringify(action == 'login'? fieldsLog: fieldsReg)
                     }).then(function(response) {
                         return response.json()
                     })
