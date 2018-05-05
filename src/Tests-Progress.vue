@@ -47,6 +47,7 @@
         </div>
     
         <div class="tests-list" v-if="access_token">
+            <h2>Таблиця показує ваш прогрес проходження матеріалу посібника/h2>
             <table>
                 <thead>
                     <tr>
@@ -236,7 +237,7 @@
     .tabs-form {
         display: flex;
         flex-direction: column;
-        background-color: #13232f;
+        /*background-color: #13232f;*/
         width: 800px;
         margin: 0 auto;
         // padding: 50px;
@@ -274,7 +275,7 @@
             .field-wrap {
                 margin-bottom: 10px;
                 label {
-                    color: white;
+                    color: #333333;
                     text-transform: capitalize;
                 }
                 input {
@@ -285,10 +286,10 @@
                     height: 100%;
                     padding: 8px 10px;
                     background: none !important;
-                    background-color:#13232f !important;
+                    /*background-color:#13232f !important;*/
                     background-image: none !important;
                     border: 1px solid #a0b3b0;
-                    color: #ffffff;
+                    /*color: #ffffff;*/
                     border-radius: 0;
                     transition: border-color .25s ease, box-shadow .25s ease;
                 }
@@ -315,6 +316,10 @@
     }
 
     .tests-list{
+        padding: 0px 0 60px;
+        h3{
+            text-align: center;
+        }
         table{
             width: 100%;
             thead{

@@ -41,7 +41,7 @@ const routes = [
 // Можно передать и другие опции, но пока не будем усложнять
 const router = new VueRouter({
   routes, // сокращение от `routes: routes`
-  mode: 'history'
+  // mode: 'history'
 })
 
 function compare(a, b) {
