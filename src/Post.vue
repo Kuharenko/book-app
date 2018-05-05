@@ -1,10 +1,12 @@
 <template>
     <div class="content">
-        <button class="button button1" @click="$router.go(-1)">❮ Назад</button>
+        <!--<button class="button button1" @click="$router.go(-1)">❮ Назад</button>-->
         <div class="post">
-            <h2>{{ post.name }}</h2>
+            <div class="header">
+                <p>Лекция с ООП {{ post.name }}</p>
+            </div>
             <div class="announce" v-html="post.content"></div>
-    
+
             <div class="tasks" v-if="post.tests">
                 <h2>Перевірте себе</h2>
                 <form name="tests" :id="'id_'+post.tests.id">
@@ -18,9 +20,9 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="send_btn" v-on:click="send_for_checking()">відправити</div>
-    
+
                 </form>
             </div>
             <div class="announce" v-if="post.sources">
@@ -28,7 +30,7 @@
                 <div v-html="post.sources"></div>
             </div>
             <div class="more">
-    
+
             </div>
         </div>
     </div>
@@ -36,28 +38,28 @@
 
 <script>
     export default {
-        data: function() {
+        data: function () {
             return {
                 post: this.$parent.$root.posts.filter(post => post.id == this.$route.params.id)[0],
                 error: null,
             }
         },
         mounted() {
-    
+
             const PostScriptsContainer = document.getElementById('postScripts');
             PostScriptsContainer.innerHTML = "";
             document.body.removeChild(PostScriptsContainer);
             let newScriptContainer = document.createElement('script');
             newScriptContainer.setAttribute("id", "postScripts");
             document.body.appendChild(newScriptContainer);
-    
+
             if (this.post.post_scripts !== undefined) {
                 const b = document.getElementById('postScripts');
                 b.insertAdjacentHTML('afterbegin', this.post.post_scripts)
                 let funcionName = (this.post.post_scripts)
                     .split(' ', 2)[1]
                     .split('(', 1)[0];
-    
+
                 window[funcionName]();
             }
         },
@@ -65,29 +67,28 @@
             // вызывается до подтверждения пути, соответствующего этому компоненту.
             // НЕ имеет доступа к контексту экземпляра компонента `this`,
             // так как к моменту вызова экземпляр ещё не создан!
-    
+
             next()
         },
-    
+
         beforeRouteUpdate(to, from, next) {
             // react to route changes...
             // don't forget to call next()
-    
+
             next()
         },
-    
-    
-    
+
+
         methods: {
             send_for_checking() {
-    
+
                 var checked = [];
-    
-                $(".tasks input:checkbox:checked").each(function() {
+
+                $(".tasks input:checkbox:checked").each(function () {
                     checked.push(parseInt($(this).attr('id').split('box-')[1]));
                 });
-    
-    
+
+
                 var questions = this.post.tests.test_questions;
                 var answers = [];
                 questions.forEach(element => {
@@ -98,8 +99,8 @@
                         });
                     })
                 });
-    
-    
+
+
                 var goodChoice = 0;
                 var rightCount = 0;
                 answers.forEach(element => {
@@ -111,7 +112,7 @@
                             goodChoice++;
                         }
                     }
-    
+
                 });
                 let result = 0;
                 if (checked.length <= 0) {
@@ -123,22 +124,22 @@
                         result = ((goodChoice / rightCount) * 100).toFixed(0);
                     }
                 }
-    
+
                 var res = {
                     result: result,
                     token: this.$session.get('user-token'),
                     test: this.post.tests.id,
                     material: this.post.id
                 };
-    
+
                 fetch('http://backend.kuharenko.xyz/site/set-test-result', {
-                        method: 'POST',
-                        body: JSON.stringify(res)
-                    })
-                    .then(function(res) {
+                    method: 'POST',
+                    body: JSON.stringify(res)
+                })
+                    .then(function (res) {
                         return res.json();
                     });
-                $(".tasks input:checkbox:checked").each(function() {
+                $(".tasks input:checkbox:checked").each(function () {
                     $(this).prop("checked", false);
                 });
                 // $('.overlay').addClass('active');
@@ -147,27 +148,40 @@
                 var modal = document.getElementById('myModal');
                 modal.style.display = "block";
                 $('#myModal .modal-body').text(result + '%');
-    
+
                 // $('.overlay #modal .response').text(result + '%');
-    
+
             },
-    
+
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    .post {
-        h2 {
-            color: black;
+    .content {
+        .header{
+            /*border: 1px solid #b3b3b3;*/
+            /*background-color: #e2e2e2;*/
+            padding: 0px 30px;
+            p{
+                color: #3f3844;
+                font-size: 34px;
+                font-weight: bold;
+                text-align: center;
+            }
+        }
+        .post {
+            h2 {
+                color: black;
+            }
         }
     }
-    
+
     .slide-enter {
         opacity: 0;
         transform: translate(30px, 0);
     }
-    
+
     .slide-leave-active {
         opacity: 0;
         transform: translate(-30px, 0);

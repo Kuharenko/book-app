@@ -2,8 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import Post from './Post.vue'
 import List from './List.vue'
-import Categories from './Categories.vue'
-import Vocabulary from './Vocabulary.vue'
 import Progress from './Tests-Progress.vue'
 import SideMenu from './SideMenu.vue'
 // import Loading from './Loading.vue'
@@ -15,8 +13,6 @@ Vue.use(VueSession)
 
 Vue.component('list', List);
 Vue.component('post', Post);
-Vue.component('categories', Categories);
-Vue.component('vocabulary', Vocabulary);
 Vue.component('tests-progress', Progress);
 Vue.component('side-menu', SideMenu);
 
@@ -38,8 +34,6 @@ Vue.component('side-menu', SideMenu);
 const routes = [
   { path: '/', component: List},
   { path: '/post/:id', name: 'post', component: Post},
-  { path: '/categories/', component: Categories},
-  { path: '/vocabulary/', component: Vocabulary},
   { path: '/progress/', component: Progress},
 ]
 
@@ -107,7 +101,7 @@ function loadData(){
     
 
        let url = 'http://backend.kuharenko.xyz/post?expand=categories,tests';
-    //    let url = 'http://api.book.my/post?expand=categories,tests';
+       // let url = 'http://book.dew/post?expand=tests';
     
     fetch(url, {
             method: 'get',
@@ -143,7 +137,7 @@ function loadData(){
                 posts: materials,
               },
               router,
-              render: h => h(App, SideMenu, List, Post, Categories, Vocabulary, Progress)
+              render: h => h(App, SideMenu, List, Post, Progress)
             })
         })
         .catch(function(error) {
