@@ -8,44 +8,17 @@
                     </router-link>
                     <div class="dropdown" style="">
                         <router-link v-for="post in posts" :key="post.id" :to="{ path: '/post/'+post.id }"
-                                     :style="{paddingLeft: 15 + 25 * post.depth + 'px' }"  >
+                                     :style="{paddingLeft: 15 + 25 * post.depth + 'px' }">
                             {{post.name}}
                         </router-link>
-                </div>
-    </li>
-    <li>
-        <router-link :to="{ path: '/progress'}" class="signin">Прогрес</router-link>
-    </li>
-    </ul>
-    </nav>
+                    </div>
+                </li>
+                <li>
+                    <router-link :to="{ path: '/progress'}" class="signin">Прогрес</router-link>
+                </li>
+            </ul>
+        </nav>
 
-    <!--<div class="side-menu">-->
-    <!--<div class="main-menu">-->
-
-    <!--&lt;!&ndash; <div id="list">-->
-    <!--<router-link :to="{ path: '/'}" class="main-menu__item">-->
-    <!--<i class="fas fa-book"></i>-->
-    <!--</router-link> &ndash;&gt;-->
-    <!--<router-link :to="{ path: '/'}" class="header">-->
-    <!--Зміст-->
-    <!--</router-link>-->
-    <!--<div class="sub-menu-content">-->
-
-    <!--<router-link v-for="post in posts" :key="post.id" :to="{ path: '/post/'+post.id }"-->
-    <!--:style="{paddingLeft: 15 + 25 * post.depth + 'px' }" class="sub-menu-item">-->
-    <!--{{post.name}}-->
-    <!--</router-link>-->
-    <!--</div>-->
-    <!--<div class="side-menu">-->
-
-    <!--</div>-->
-    <!--&lt;!&ndash; </div> &ndash;&gt;-->
-
-    <!--&lt;!&ndash; <router-link :to="{ path: '/progress'}" class="main-menu__item">-->
-    <!--<i class="fas fa-tasks"></i>-->
-    <!--</router-link> &ndash;&gt;-->
-    <!--</div>-->
-    <!--</div>-->
     </div>
 </template>
 
@@ -161,21 +134,22 @@
             box-shadow: 0 3px 17px rgba(0, 0, 0, 0.5), inset 0 0 0 white;
             background: rgba(255, 255, 255, 1);
             /*padding: 20px;*/
-            a{
+            a {
                 padding: 10px 35px 15px 0;
                 font-size: 14px;
                 font-weight: bolder;
                 text-align: left;
                 background-color: ghostwhite;
                 border-bottom: 1px solid #dfdfdf;
-                &:hover{
+                &:hover {
                     box-shadow: none;
                 }
             }
         }
-        &:hover{
+        &:hover {
             .dropdown {
-                display: flex; flex-direction: column;
+                display: flex;
+                flex-direction: column;
             }
         }
     }
