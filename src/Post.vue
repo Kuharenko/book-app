@@ -3,7 +3,7 @@
         <!--<button class="button button1" @click="$router.go(-1)">❮ Назад</button>-->
         <div class="post">
             <div class="header">
-                <p>Лекция с ООП {{ post.name }}</p>
+                <p>{{ post.name }}</p>
             </div>
             <div class="announce" v-html="post.content"></div>
 
