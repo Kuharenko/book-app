@@ -129,6 +129,7 @@
         .dropdown {
             display: none;
             position: absolute;
+            width: 400px;
             top: 60px;
             left: 0;
             box-shadow: 0 3px 17px rgba(0, 0, 0, 0.5), inset 0 0 0 white;

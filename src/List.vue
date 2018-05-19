@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-    
+
         <div class="post" v-for="post in posts" :key="post.id">
             <h2>{{ post.name }}</h2>
             <div class="announce">{{ post.announce }}</div>
@@ -13,10 +13,6 @@
                 <router-link :to="{ path: '/post/'+post.id}">детальніше...</router-link>
             </div>
         </div>
-        <!-- <button v-if="pager.first" @click="firstBtn">first</button>
-                                                                    <button v-if="pager.prev" @click="prevBtn">prev</button>
-                                                                    <button v-if="pager.next" @click="nextBtn">next</button>
-                                                                    <button v-if="pager.last" @click="lastBtn">last</button> -->
     </div>
 </template>
 

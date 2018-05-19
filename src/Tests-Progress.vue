@@ -130,7 +130,6 @@
                 }
     
             },
-    
             login(action) {
                 var myHeaders = new Headers();
                 var fieldsLog = {
@@ -221,7 +220,6 @@
                 this.login_email = "";
                 this.access_token = null;
             },
-    
         }
     }
 </script>
