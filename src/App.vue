@@ -18,22 +18,20 @@
     }
 
     .slide-fade-leave-active {
-        transition: all .5s ease;
+        transition: all .6s ease;
     }
 
     .slide-fade-enter
     {
-        transform-style: flat;
-        transform: perspective(300px) translateZ(-150px);
+        transform: perspective(3000px) translateZ(-150px);
         /*transform: translateY(350px);*/
         opacity: 0;
     }
 
     .slide-fade-leave-to
     {
-        transform-style: flat;
         /*transform: translateY(-350px);*/
-        transform: perspective(600px) translateZ(-150px);
+        transform: perspective(800px) translateZ(150px);
         opacity: 0;
     }
 

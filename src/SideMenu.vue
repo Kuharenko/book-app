@@ -21,7 +21,11 @@
                 </li>
             </ul>
         </nav>
+        <div class="author">
+            <div class="dev">Розробник посібника</div>
+            <div class="name">Кухаренко О.В.</div>
 
+        </div>
     </div>
 </template>
 
@@ -36,6 +40,22 @@
 </script>
 
 <style lang="scss" scoped>
+    .author{
+        position: absolute;
+        bottom: 10px;
+        .dev, .name{
+            padding: 5px 18px;
+            font-family: "Open Sans";
+            font-size: 20px;
+            text-decoration: none;
+            display: block;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 400;
+            text-shadow: #74261e 0 1px 1px;
+            outline: 0;
+        }
+    }
     .menu{
         width: 250px;
         position: fixed;
