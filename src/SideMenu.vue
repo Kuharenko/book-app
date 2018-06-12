@@ -4,6 +4,9 @@
             <ul>
                 <li>
                     <router-link :to="{ path: '/'}" class="header">
+                        Посібник з ООП С++
+                    </router-link>
+                    <router-link :to="{ path: '/list'}" class="header">
                         Зміст
                     </router-link>
                     <div class="dropdown" style="">
@@ -33,39 +36,56 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .menu{
+        width: 250px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        z-index: 10;
+        /*height: 100vh;*/
+        background-color: #e74c3c;
+    }
 
     nav {
-        max-width: 960px;
-        mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
-        margin: 0 auto;
-        padding: 60px 0;
+        /*max-width: 960px;*/
+        /*mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);*/
+        /*margin: 0 auto;*/
+        /*padding: 60px 0;*/
     }
 
     nav ul {
-        text-align: center;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
-        box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+        display: block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        /*text-align: center;*/
+        /*background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);*/
+        /*box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);*/
     }
 
     nav ul li {
-        display: inline-block;
+        /*display: inline-block;*/
     }
 
     nav ul li a {
         padding: 18px;
         font-family: "Open Sans";
-        text-transform: uppercase;
-        color: rgba(0, 35, 122, 0.5);
-        font-size: 18px;
+        font-size: 20px;
         text-decoration: none;
         display: block;
+        color: #fff;
+        cursor: pointer;
+        font-weight: 400;
+        text-shadow: #74261e 0 1px 1px;
+        outline: 0;
     }
 
     nav ul li a:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+        /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);*/
         background: rgba(255, 255, 255, 0.1);
-        color: rgba(0, 35, 122, 0.7);
+        /*color: rgba(0, 35, 122, 0.7);*/
     }
 
     .menu-line {
@@ -149,10 +169,10 @@
             }
         }
         &:hover {
-            .dropdown {
-                display: flex;
-                flex-direction: column;
-            }
+            /*.dropdown {*/
+                /*display: flex;*/
+                /*flex-direction: column;*/
+            /*}*/
         }
     }
 </style>

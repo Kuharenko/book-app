@@ -236,6 +236,7 @@
         display: flex;
         flex-direction: column;
         /*background-color: #13232f;*/
+        border: 2px dotted #e74c3c;
         width: 800px;
         margin: 0 auto;
         // padding: 50px;
@@ -253,18 +254,26 @@
                 border: none;
                 font-weight: bold;
                 text-transform: uppercase;
+                cursor: pointer;
                 font-size: 16px;
                 &:hover {
-                    background-color: #179b77;
+                    background: rgba(231, 76, 60, 0.88);
                     color: white;
                 }
             }
             button.active {
-                background-color: #1ab188;
-                color: white;
+                font-family: "Open Sans";
+                /*font-size: 20px;*/
+                text-decoration: none;
+                display: block;
+                color: #fff;
+                cursor: pointer;
+                font-weight: 400;
+                text-shadow: #74261e 0 1px 1px;
+                background-color: #e74c3c;
+                outline: 0;
                 &:hover {
-                    background-color: #179b77;
-                    color: white;
+                    background: rgba(231, 76, 60, 0.88);
                 }
             }
         }
@@ -296,14 +305,14 @@
                 margin-top: 20px;
                 padding: 20px;
                 width: 100%;
-               background-color: #1ab188;
+                background-color: #e74c3c;
                 color: white;
                 border: none;
                 font-weight: bold;
                 text-transform: uppercase;
                 font-size: 16px;
                 &:hover {
-                    background-color: #179b77;
+                    background: rgba(231, 76, 60, 0.88);
                     color: white;
                 }
             }

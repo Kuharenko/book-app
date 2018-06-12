@@ -162,17 +162,18 @@
         .header{
             /*border: 1px solid #b3b3b3;*/
             /*background-color: #e2e2e2;*/
-            padding: 0px 30px;
+            /*padding: 0px 30px;*/
             p{
+                margin: 0;
                 color: #3f3844;
-                font-size: 34px;
+                font-size: 48px;
                 font-weight: bold;
-                text-align: center;
+                /*text-align: center;*/
             }
         }
         .post {
             h2 {
-                color: black;
+                color: #444444;
             }
         }
     }

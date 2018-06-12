@@ -44,7 +44,7 @@
 <style lang="scss" scoped>
     .post {
         h2 {
-            color: black;
+            color: #444;
         }
     }
     
@@ -53,5 +53,9 @@
             list-style: none;
             padding: 0;
         }
+    }
+
+    .announce{
+        color: #444;
     }
 </style>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import Post from './Post.vue'
 import List from './List.vue'
+import Greeting from './Greeting.vue'
 import Progress from './Tests-Progress.vue'
 import SideMenu from './SideMenu.vue'
 // import Loading from './Loading.vue'
@@ -11,6 +12,7 @@ import VueSession from 'vue-session'
 Vue.use(VueRouter)
 Vue.use(VueSession)
 
+Vue.component('greeting', Greeting);
 Vue.component('list', List);
 Vue.component('post', Post);
 Vue.component('tests-progress', Progress);
@@ -32,17 +34,18 @@ Vue.component('side-menu', SideMenu);
 // полноценный конструктор, так и просто объект с настройками компонента
 // Вложенные пути будут рассмотрены далее.
 const routes = [
-  { path: '/', component: List},
+  { path: '/', component: Greeting},
+  { path: '/list', component: List},
   { path: '/post/:id', name: 'post', component: Post},
   { path: '/progress/', component: Progress},
-]
+];
 
 // 3. Создаём экземпляр роутера с опцией `routes`
 // Можно передать и другие опции, но пока не будем усложнять
 const router = new VueRouter({
   routes, // сокращение от `routes: routes`
   // mode: 'history'
-})
+});
 
 function compare(a, b) {
   if (a.sortIndex < b.sortIndex)
@@ -100,7 +103,7 @@ function loadData(){
     });
 
 
-       let url = 'http://backend.kuharenko.xyz/post?expand=categories,tests';
+       let url = 'http://backend.kuharenko.xyz/post?expand=tests';
        // let url = 'http://book.dew/post?expand=tests';
 
     fetch(url, {
@@ -137,7 +140,7 @@ function loadData(){
                 posts: materials,
               },
               router,
-              render: h => h(App, SideMenu, List, Post, Progress)
+              render: h => h(App, Greeting, SideMenu, List, Post, Progress)
             })
         })
         .catch(function(error) {
